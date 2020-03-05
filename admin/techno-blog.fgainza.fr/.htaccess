@@ -1,0 +1,5 @@
+AuthUserFile /C:\xampp\htdocs\cours-php\Watson\site-web-pro-perso\html\techno-blog.fgainza.fr\7_blog_perso\admin\.htaccess
+AuthName Administration
+AuthType Basic
+ 
+require user test@gmail.com fred@fred.com
