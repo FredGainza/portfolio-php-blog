@@ -18,7 +18,7 @@ require 'header.php';
               echo '';
             }
             ?>
-              " placeholder="Sasisir votre email">
+              " placeholder="Saisir votre email">
             <i class="fa fa-user"></i>
           </div>
           <div class="form-group pwd">
