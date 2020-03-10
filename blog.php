@@ -99,7 +99,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-3">
-                    <a href="page_web?" class="btn-sm btn-dark">All genres</a>
+                        <a href="page_web?" class="btn-sm btn-dark">All genres</a>
                     </div>
                     <div class="col-3">
                         <a href="app/disconnect.php" class="btn-sm btn-dark">Deep</a>
@@ -154,34 +154,34 @@
 
 
 
-                                <!-- /.row -->
+                            <!-- /.row -->
 
-                                <!-- Pagination -->
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
-                                </ul>
+                            <!-- Pagination -->
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">1</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">3</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
 
-    <!-- /.container --
+                            <!-- /.container --
       </div>
         <!-- <div class="col-md-3 bg-secondary text-center mt-3 py-3">
             <br>
@@ -196,7 +196,7 @@
 
 
       </div> -->
-    <!-- </div>
+                            <!-- </div>
   </div> -->
 
 

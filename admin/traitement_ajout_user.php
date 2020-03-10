@@ -90,22 +90,22 @@ if ($_SESSION['errors_admin'] === "") {
         $mail->Host       = 'mail.fgainza.fr';                    // Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
         $mail->Username = 'contact@fgainza.fr';
-        $mail->Password = 'Bifj29!3';                           // SMTP password
+        $mail->Password = 'xxxx';                           // SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
         $mail->SMTPOptions = array(
             'ssl' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
             )
         );
         $mail->Port       = 587;                                    // TCP port to connect to
 
         //Recipients
         $mail->setFrom('techno-blog@fgainza.fr', 'Administrateur de Techno-Blog');
-        $mail->addAddress($email, $firstname. ' '.$lastname);
+        $mail->addAddress($email, $firstname . ' ' . $lastname);
         $mail->addBCC('techno-blog@fgainza.fr');
-        
+
         // Content
         $mail->isHTML(true);                                  // Set email format to HTML
         $mail->Subject = 'Vous avez été incrit sur notre site';
@@ -122,15 +122,17 @@ if ($_SESSION['errors_admin'] === "") {
         Merci et à très bientôt !!<br>
         <a href="https://techno-blog.fgainza.fr">TECHNO-BLOG</a>';
 
-        $mail->AltBody = 'Sujet : Vous avez été incrit sur notre site (ajout d\'un utilisateur par un admin). '.$firstname. ' '. $lastname. ' (email : '.$email.')' ;
+        $mail->AltBody = 'Sujet : Vous avez été incrit sur notre site (ajout d\'un utilisateur par un admin). ' . $firstname . ' ' . $lastname . ' (email : ' . $email . ')';
 
         $mail->send();
         $_SESSION['success_admin'] = "Utilisateur ajouté";
-        header('Location: ' .$_SERVER['HTTP_REFERER']);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
     } catch (Exception $e) {
         $_SESSION['errors'] = "Le message n'a pas pu être envoyé. Mailer Error: {$mail->ErrorInfo}";
     }
 } else {
     $_SESSION['errors_admin'] = 'Un problème est survenu';
-    header('Location: ' .$_SERVER['HTTP_REFERER']);
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit;
 }

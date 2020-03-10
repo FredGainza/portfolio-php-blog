@@ -4,7 +4,7 @@
         <div class="form-row mr-3">
             <div class="form-group col-lg-6">
                 <label for="title">Titre de la release</label>
-                <input type="text" class="form-control" id="title" placeholder="Titre" name="title">
+                <input type="text" class="form-control" id="title" name="title" placeholder="Titre">
             </div>
             <div class="form-group col-lg-6">
                 <label for="date">Date de sortie</label>
@@ -15,7 +15,7 @@
         <div class="form-row mr-3">
             <div class="form-group col-lg-6">
                 <label for="label">Label</label>
-                <input type="text" class="form-control" id="label" placeholder="Label" name="label">
+                <input type="text" class="form-control" id="label" name="label" placeholder="Label">
             </div>
             <div class="form-group col-lg-6">
                 <label for="category">Catégorie</label>
@@ -29,33 +29,31 @@
 
         <div class="form-row mr-3 mb-3">
             <label for="label" id="">Code URI Spotify</label>
-            
+
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text">spotify:album:</div>
                 </div>
-                <input type="text" class="form-control" id="inlineFormInputGroupSpotify" placeholder="Code URI (Album seulement !!)" name="spotify_URI">
+                <input type="text" class="form-control" id="inlineFormInputGroupSpotify" name="spotify_URI" placeholder="Code URI (Album seulement !!)">
             </div>
-        
+
         </div>
 
-
-
         <div class="form-row mr-3">
-        <div class="col-12">
-            <div class="form-group">
-                <label for="description">Court résumé de la sortie</label>
-                <textarea name="description" id="description" width="90%" rows="4"></textarea>
-            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="description">Court résumé de la sortie</label>
+                    <textarea name="description" id="description" width="90%" rows="4"></textarea>
+                </div>
             </div>
         </div>
 
         <div class="form-row mr-3">
             <div class="col-12">
-            <div class="form-group">
-                <label for="content">Présentation de la release</label>
+                <div class="form-group">
+                    <label for="content">Présentation de la release</label>
 
-                <textarea name="content" id="content" cols="108" rows="6"></textarea>
+                    <textarea name="content" id="content" cols="108" rows="6"></textarea>
                 </div>
             </div>
         </div>

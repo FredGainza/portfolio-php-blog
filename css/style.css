@@ -2,6 +2,11 @@ body{
     /* font-family: 'Roboto', sans-serif; */
     font-family: 'Lato', sans-serif;
 }
+.with-resp{
+    width:97%;
+    margin-left: auto;
+    margin-right: auto;
+}
 .displayR{display: none;}
 .displayRR{display: unset;}
 
@@ -164,6 +169,7 @@ input[type="email"], input[type="password"] {
 }
 select{
     border: 2px solid #aaa;
+    vertical-align: middle;
 }
 
 input[type="email"]:focus, input[type="password"]:focus {
@@ -261,7 +267,9 @@ table {
     margin: 15px auto;
     text-align: center;
   }
-
+table thead th:last-child{
+    padding-right: .5rem !important;
+}
   .white {
     color: white;
   }
@@ -447,7 +455,12 @@ fieldset[disabled] .btn-text-info.active {
     color: #0D1C0F; 
     background-color: #FFFFFF; 
 }
-
+.btn-random{
+    padding: .1rem .2rem !important;
+    font-size: .85rem !important;
+    line-height: 1.5 !important;
+    border-radius: .2rem !important;
+}
 .logo{
     top: -250px;
     left: 30px;
@@ -462,13 +475,18 @@ fieldset[disabled] .btn-text-info.active {
     border-color: #2d0101 !important;
     background-color: #2d0101 !important;
 }
-
+.form-check-input-pwd{
+    position: absolute;
+    margin-top: .4rem;
+    margin-left: .5rem;
+}
 .flexGrow-2{
     flex-grow: 2 !important;
 }
 .w100grow{width: 100% !important;}
+
 .navbar-brand{
-    padding-bottom: 0 !important;
+    padding-bottom: .3125rem !important;
     padding-top: .2rem !important;
 }
 
@@ -525,6 +543,22 @@ q:first-letter {
 
 
 
+
+@media screen and (max-width: 849px){
+    .w-edit-com{
+        width: 60%;
+    }
+}
+@media (min-width: 850px){
+    .w-edit-com{
+        width: 30%;
+    }
+}
+@media screen and (max-width: 575px){
+    .navbar-brand{display: none;}
+    .pad-bloc{padding-left: .25rem;}
+}
+
 @media (min-width: 576px){
     .padR-5{
         padding-left: 15px !important;
@@ -536,11 +570,21 @@ q:first-letter {
     .padR-pills{
         padding: .5rem 1rem !important;
     }
+    .navbar-brand{font-size: 1rem;}
+    .pad-bloc{padding-left: 1rem;}
 }
 @media (min-width: 768px){
     .w100respMdp{
         width: 80%;
     }
+    .with-resp{
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .navbar-brand{font-size: 1.2rem;}
+    .pad-bloc{padding-left: 2rem;}
+
 }
 
 @media (min-width: 992px){
@@ -559,6 +603,12 @@ q:first-letter {
     .displayRR{
         display: none !important;
     }
+    .with-resp{
+        width: 25%;
+        margin-left: .25rem;
+        margin-right: auto;
+    }
+    .pad-bloc{padding-left: 3rem;}
 }
 
 @media (min-width: 1200px){

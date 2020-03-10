@@ -19,9 +19,9 @@ if (isset($_POST) && !empty($_POST)) {
             if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 
                 $firstname = valid_donnees($_POST['firstname']);
-                $firstname=ucfirst($firstname);
+                $firstname = ucfirst($firstname);
                 $lastname = valid_donnees($_POST['lastname']);
-                $lastname=ucfirst($lastname);
+                $lastname = ucfirst($lastname);
                 $email = valid_donnees($_POST['email']);
 
 
@@ -36,15 +36,15 @@ if (isset($_POST) && !empty($_POST)) {
                         $pwd_base = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
                         // Attribution d'un avatar https://avatars.dicebear.com/v2/avataaars/
-                        $code_avatar="";
+                        $code_avatar = "";
                         $caract = "abcdefghijklmnopqrstuvwxyz0123456789";
                         $len = strlen($caract);
-                        for ($i=0; $i<20; $i++){
+                        for ($i = 0; $i < 20; $i++) {
                             $position_caract = rand(0, $len - 1);
                             $code_avatar .= $caract[$position_caract];
                         }
 
-                        $lien_avatar = "https://avatars.dicebear.com/v2/bottts/" .$code_avatar. ".svg";
+                        $lien_avatar = "https://avatars.dicebear.com/v2/bottts/" . $code_avatar . ".svg";
 
                         $insert = $dbh->prepare('INSERT INTO users (avatar, firstname, lastname, email, password, role) VALUES (:avatar, :firstname, :lastname, :email, :password, :role)');
                         $insert->bindValue(':avatar', $lien_avatar, PDO::PARAM_STR);
@@ -61,8 +61,8 @@ if (isset($_POST) && !empty($_POST)) {
 
                         $_SESSION['success'] = 'Utilisateur enregistré';
 
-                        $_SESSION['prenom'] = $firstname;
-                        $_SESSION['email'] = $email;
+                        // $_SESSION['prenom'] = $firstname;
+                        // $_SESSION['email'] = $email;
 
                         $role = $_POST['role'];
 
@@ -77,59 +77,58 @@ if (isset($_POST) && !empty($_POST)) {
                             $mail->Host       = 'mail.fgainza.fr';                    // Set the SMTP server to send through
                             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
                             $mail->Username = 'contact@fgainza.fr';
-                            $mail->Password = 'Bifj29!3';                           // SMTP password
+                            $mail->Password = 'xxxx';                           // SMTP password
                             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
                             $mail->SMTPOptions = array(
                                 'ssl' => array(
-                                'verify_peer' => false,
-                                'verify_peer_name' => false,
-                                'allow_self_signed' => true
+                                    'verify_peer' => false,
+                                    'verify_peer_name' => false,
+                                    'allow_self_signed' => true
                                 )
                             );
                             $mail->Port       = 587;                                    // TCP port to connect to
 
                             //Recipients
                             $mail->setFrom('techno-blog@fgainza.fr', 'Administrateur de Techno-Blog');
-                            $mail->addAddress($email, $firstname. ' '.$lastname);
+                            $mail->addAddress($email, $firstname . ' ' . $lastname);
                             $mail->addBCC('techno-blog@fgainza.fr');
 
 
                             // Content
                             $mail->isHTML(true);                                  // Set email format to HTML
                             $mail->Subject = 'Inscription sur Techno-Blog validée';
-                            
-                            if ($role == "user"){
+
+                            if ($role == "user") {
                                 $body = file_get_contents('../mail/welcome_user.html');
                                 $body = str_replace('$firstname', $firstname, $body);
                                 $body = str_replace('$lastname', $lastname, $body);
 
-                                $body = preg_replace('/\\\\/','', $body);
+                                $body = preg_replace('/\\\\/', '', $body);
 
                                 $mail->MsgHTML($body);
-    
-                                $mail->AltBody = 'Sujet : Enregistrement d\'un utilisateur. '.$firstname. ' '. $lastname. ' '.$role. ' (email : '.$email.')' ;
+
+                                $mail->AltBody = 'Sujet : Enregistrement d\'un utilisateur. ' . $firstname . ' ' . $lastname . ' ' . $role . ' (email : ' . $email . ')';
                             }
-                            if($role == "admin"){
+                            if ($role == "admin") {
                                 $body = file_get_contents('../mail/welcome_admin.html');
                                 $body = str_replace('$firstname', $firstname, $body);
                                 $body = str_replace('$lastname', $lastname, $body);
 
-                                $body = preg_replace('/\\\\/','', $body);
+                                $body = preg_replace('/\\\\/', '', $body);
 
                                 $mail->MsgHTML($body);
 
-                                $mail->AltBody = 'Sujet : Enregistrement d\'un admin. '.$firstname. ' '. $lastname. ' '.$role. ' (email : '.$email.')' ;
+                                $mail->AltBody = 'Sujet : Enregistrement d\'un admin. ' . $firstname . ' ' . $lastname . ' ' . $role . ' (email : ' . $email . ')';
                             }
 
                             $mail->send();
-                            if(!empty($_POST['role']) && $_POST['role'] === 'user'){
-                                $_SESSION['user_access'] = true;
-                                header('Location: envoi_mail_inscription');
+                            if (!empty($_POST['role']) && $_POST['role'] === 'user') {
+                                $_SESSION['user_access'] = true;                                
                                 $_SESSION['success'] = 'Félicitations, vous êtes enregistré !!<br>
                                                         Vous pouvez maintenant vous connecter.<br>';
                             }
 
-                            if(!empty($_POST['role']) && $_POST['role'] === 'admin'){
+                            if (!empty($_POST['role']) && $_POST['role'] === 'admin') {
                                 $_SESSION['user_access'] = true;
                                 $_SESSION['admin_access'] = true;
                                 $_SESSION['success'] = 'Félicitations, vous êtes enregistré en tant qu\'administrateur!!<br>
@@ -137,29 +136,33 @@ if (isset($_POST) && !empty($_POST)) {
                                                         Vos fonctionnalités d\'administrateur doivent être validées avant d\'être actives (délais de 48h au maximum)';
                             }
                             header('Location: ../index.php');
-
+                            exit;
                         } catch (Exception $e) {
                             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-                        }                        
-                      
+                        }
                     } else {
                         $_SESSION['errors'] = "Vous n'avez pas renseigné de mot de passe";
                         header('Location: ' . $_SERVER['HTTP_REFERER']);
+                        exit;
                     }
                 } else {
                     $_SESSION['errors'] = "Votre email est déjà utilisé. Veuillez vous connecter";
                     header('Location: ' . $_SERVER['HTTP_REFERER']);
+                    exit;
                 }
             } else {
                 $_SESSION['errors'] = "Votre email n'est pas valide";
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
+                exit;
             }
         } else {
             $_SESSION['errors'] = "Vous n'avez pas rempli correctement le champ email";
             header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
         }
     } else {
         $_SESSION['errors'] = "Vous n'avez pas rempli correctement certains champs";
         header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
     }
 }

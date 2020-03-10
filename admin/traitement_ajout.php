@@ -9,26 +9,26 @@ $_SESSION['success_admin'] = "";
 $_SESSION['errors_admin'] = "";
 
 if (isset($_POST) && !empty($_POST)) {
-  foreach ($_POST as $k => $v) {
-    if (!empty($v)) {
-      $succes;
-    } else {
-      $_SESSION['errors_admin'] .= $k . ' /' . ' ';
+    foreach ($_POST as $k => $v) {
+        if (!empty($v)) {
+            $succes;
+        } else {
+            $_SESSION['errors_admin'] .= $k . ' /' . ' ';
+        }
     }
-  }
 }
 
 if ($_SESSION['errors_admin'] === "" || $_SESSION['errors_admin'] === "spotify_URI / ") {
-  $user_id = $_SESSION['log_id'];
-  $title = $_POST['title'];
-  $date = $_POST['date'];
-  $label = $_POST['label'];
-  $category = $_POST['category'];
-  $description = $_POST['description'];
-  $content = $_POST['content'];
-  $spotify = $_POST['spotify_URI'];
-  // $image = $_POST['image'];
-  $slug = slugify($title);
+    $user_id = $_SESSION['log_id'];
+    $title = $_POST['title'];
+    $date = $_POST['date'];
+    $label = $_POST['label'];
+    $category = $_POST['category'];
+    $description = $_POST['description'];
+    $content = $_POST['content'];
+    $spotify = $_POST['spotify_URI'];
+    // $image = $_POST['image'];
+    $slug = slugify($title);
 
     if (!empty($_FILES)) {
         $maxSize = 1024 * 1024; // 1 048 576
@@ -59,88 +59,82 @@ if ($_SESSION['errors_admin'] === "" || $_SESSION['errors_admin'] === "spotify_U
                         $new_image = imagecreatefromgif($_FILES['image']['tmp_name']);
                     }
 
-                        $original_width = imagesx($new_image);
-                        $original_heigth = imagesy($new_image);
-                        $miniature_heigth = ($original_heigth * $config_miniature_width) / $original_width;
-                        $miniature = imagecreatetruecolor($config_miniature_width, $miniature_heigth);
-                        imagecopyresampled($miniature, $new_image, 0, 0, 0, 0, $config_miniature_width, $miniature_heigth, $original_width, $original_heigth);
+                    $original_width = imagesx($new_image);
+                    $original_heigth = imagesy($new_image);
+                    $miniature_heigth = ($original_heigth * $config_miniature_width) / $original_width;
+                    $miniature = imagecreatetruecolor($config_miniature_width, $miniature_heigth);
+                    imagecopyresampled($miniature, $new_image, 0, 0, 0, 0, $config_miniature_width, $miniature_heigth, $original_width, $original_heigth);
 
-                        $folder = '../images/miniatures/';
+                    $folder = '../images/miniatures/';
 
-                        if ($extension === 'jpg' || $extension === 'jpeg') {
-                            imagejpeg($miniature, $folder . $image_name . '.' . $extension);
-                            } elseif ($extension === 'png') {
-                            imagepng($miniature, $folder . $image_name . '.' . $extension);
-                            } elseif ($extension === 'gif') {
-                            imagegif($miniature, $folder . $image_name . '.' . $extension);
-                            }
-                            move_uploaded_file($_FILES['image']['tmp_name'], '../images/' .
-                            $image_name . '.' . $extension);
-                            $msg = '../image transférée';
+                    if ($extension === 'jpg' || $extension === 'jpeg') {
+                        imagejpeg($miniature, $folder . $image_name . '.' . $extension);
+                    } elseif ($extension === 'png') {
+                        imagepng($miniature, $folder . $image_name . '.' . $extension);
+                    } elseif ($extension === 'gif') {
+                        imagegif($miniature, $folder . $image_name . '.' . $extension);
+                    }
+                    move_uploaded_file($_FILES['image']['tmp_name'], '../images/' .
+                        $image_name . '.' . $extension);
+                    $msg = '../image transférée';
 
-                            require '../app/bdd.php';
+                    require '../app/bdd.php';
 
-                            $select = $dbh->prepare('SELECT * FROM blog_categories');
-                            $select->execute();
-                            $res_cat = $select->fetchAll(PDO::FETCH_OBJ);
+                    $select = $dbh->prepare('SELECT * FROM blog_categories');
+                    $select->execute();
+                    $res_cat = $select->fetchAll(PDO::FETCH_OBJ);
 
-                            // dumpPre($res_cat);
-                            // exit;
+                    foreach ($res_cat as $v) {
+                        if ($v->name == $category) {
+                            $category_id = $v->id;
+                        }
+                    }
 
-                            foreach ($res_cat as $v) {
-                                if ($v->name == $category) {
-                                    $category_id = $v->id;
-                                }
-                            }
+                    $insert = $dbh->prepare('INSERT INTO blog_posts (user_id, image, category, category_id, title, date, label, description, content, slug, spotify_URI) VALUES (:user_id, :image, :category, :category_id, :title, :date, :label, :description, :content, :slug, :spotify_URI)');
+                    $insert->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+                    $insert->bindValue(':image', $image_name . '.' . $extension, PDO::PARAM_STR);
+                    $insert->bindValue(':category', $category, PDO::PARAM_STR);
+                    $insert->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+                    $insert->bindValue(':title', $title, PDO::PARAM_STR);
+                    $insert->bindValue(':date', $date, PDO::PARAM_STR);
+                    $insert->bindValue(':label', $label, PDO::PARAM_STR);
+                    $insert->bindValue(':description', $description, PDO::PARAM_STR);
+                    $insert->bindValue(':content', $content, PDO::PARAM_STR);
+                    $insert->bindValue(':slug', $slug, PDO::PARAM_STR);
+                    $insert->bindValue(':spotify_URI', $spotify, PDO::PARAM_STR);
 
-                            // echo $category_id;
-                            // exit;
+                    $insert->execute();
 
+                    $res_insert = $insert->fetchAll(PDO::FETCH_OBJ);
 
-                            $insert = $dbh->prepare('INSERT INTO blog_posts (user_id, image, category, category_id, title, date, label, description, content, slug, spotify_URI) VALUES (:user_id, :image, :category, :category_id, :title, :date, :label, :description, :content, :slug, :spotify_URI)');
-                            $insert->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-                            $insert->bindValue(':image', $image_name . '.' . $extension, PDO::PARAM_STR);
-                            $insert->bindValue(':category', $category, PDO::PARAM_STR);
-                            $insert->bindValue(':category_id', $category_id, PDO::PARAM_INT);
-                            $insert->bindValue(':title', $title, PDO::PARAM_STR);
-                            $insert->bindValue(':date', $date, PDO::PARAM_STR);
-                            $insert->bindValue(':label', $label, PDO::PARAM_STR);
-                            $insert->bindValue(':description', $description, PDO::PARAM_STR);
-                            $insert->bindValue(':content', $content, PDO::PARAM_STR);
-                            $insert->bindValue(':slug', $slug, PDO::PARAM_STR);
-                            $insert->bindValue(':spotify_URI', $spotify, PDO::PARAM_STR);
+                    $article_id = $dbh->lastInsertId();
 
-                            $insert->execute();
+                    $insert = $dbh->prepare('INSERT INTO article_category (article_id, category_id) VALUES (:article_id, :category_id)');
+                    $insert->bindValue(':article_id', $article_id, PDO::PARAM_INT);
+                    $insert->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+                    $insert->execute();
 
-
-
-                            $res_insert = $insert->fetchAll(PDO::FETCH_OBJ);
-
-                            $article_id = $dbh->lastInsertId();
-
-                            $insert = $dbh->prepare('INSERT INTO article_category (article_id, category_id) VALUES (:article_id, :category_id)');
-                            $insert->bindValue(':article_id', $article_id, PDO::PARAM_INT);
-                            $insert->bindValue(':category_id', $category_id, PDO::PARAM_INT);
-                            $insert->execute();
-
-                            $_SESSION['success_admin'] = "Release correctement ajoutée";
-                            header('Location: admin.php?article=table');
-                        
-
+                    $_SESSION['success_admin'] = "Release correctement ajoutée";
+                    header('Location: admin.php?article=table');
+                    exit;
                 } else {
                     $_SESSION['errors_admin'] = 'Extension non autorisée';
                     header('Location: admin.php?article=affichage');
+                    exit;
                 }
             } else {
-            $_SESSION['errors_admin'] = 'Fichier trop lourd';
-            header('Location: admin.php?article=table');
+                $_SESSION['errors_admin'] = 'Fichier trop lourd';
+                header('Location: admin.php?article=table');
+                exit;
             }
         } else {
             $_SESSION['errors_admin'] = 'Erreur lors du transfert de fichier';
             header('Location: admin.php?article=table');
+            exit;
         }
     } else {
-    $_SESSION['errors_admin'] = 'Un problème est survenu';
-    header('Location: admin.php?article=table');
+        $_SESSION['errors_admin'] = 'Un problème est survenu';
+        header('Location: admin.php?article=table');
+        exit;
     }
 }

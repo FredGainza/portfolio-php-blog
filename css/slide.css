@@ -29,11 +29,12 @@ body {
 .sidebar header {
   font-size: 22px;
   color: white;
-  line-height: 50px;
+  line-height: 40px;
   text-align: center;
   background: #063146;
   user-select: none;
   padding-right: 50px;
+  padding-top: 6px;
 }
 .sidebar ul a{
   display: block;
@@ -56,6 +57,10 @@ ul li:hover a{
 }
 #check{
   display: none;
+}
+label {
+  display: block;
+  margin-bottom: 1.5rem;
 }
 label #btn,label #cancel{
   position: absolute;

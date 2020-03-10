@@ -10,7 +10,8 @@
     display: none !important;
   }
   #sidebar-wrapper {
-    min-height: 100vh;
+    height: 100vh;;
+    min-height: 100%;
     margin-left: -15rem;
     -webkit-transition: margin .25s ease-out;
     -moz-transition: margin .25s ease-out;
@@ -23,8 +24,14 @@
     font-size: 1.2rem;
   }
   
+  #sidebar-wrapper .list-group-item {
+    padding: .75rem 1.8rem;
+  }
   #sidebar-wrapper .list-group {
     width: 15rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
   }
   
   #page-content-wrapper {

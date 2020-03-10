@@ -64,8 +64,6 @@
         <div class="col-2">
             <div id="navig" class="bg-dark">
                 <nav class="navbar navbar-dark pt-3">
-
-
                     <ul class="nav nav-tabs flex-column">
                         <li class="nav-item dropdown ">
                             <a class="nav-link dropdown-toggle links_perso" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Articles</a>
@@ -78,8 +76,6 @@
                         </li>
                         <div class="dropdown-divider"></div>
 
-
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle links_perso" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Commentaires</a>
                             <div class="dropdown-menu">
@@ -88,8 +84,8 @@
                                 <a class="dropdown-item" href="#">Edition</a>
                                 <a class="dropdown-item" href="#">Voir</a>
                             </div>
-
                         </li>
+
                         <div class="dropdown-divider"></div>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle links_perso" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Utilisateurs</a>
@@ -100,17 +96,13 @@
                                 <a class="dropdown-item" href="#">Edition</a>
                                 <a class="dropdown-item" href="#">Voir</a>
                             </div>
-
                         </li>
+
                         <div class="dropdown-divider"></div>
                         <li class="nav-item">
                             <a class="nav-link links_perso" href="#">Link</a>
                         </li>
                     </ul>
-
-
-
-
                 </nav>
             </div>
         </div>

@@ -7,7 +7,5 @@ require '../app/bdd.php';
 
 $_SESSION['success_admin'] = 'Le commentaire a bien été supprimé';
 
-header('Location: admin.php?comment=table'); 
-
-
-?>
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+exit;

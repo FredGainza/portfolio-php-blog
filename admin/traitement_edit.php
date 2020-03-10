@@ -27,9 +27,10 @@ if (!empty($_POST)) {
 
     $edit->execute();
 
-    if (empty($_FILES)){
+    if (empty($_FILES)) {
         $_SESSION['success_admin'] = "Release correctement éditée";
         header('Location: admin.php?article=table');
+        exit;
     }
 
     if (!empty($_FILES)) {
@@ -89,24 +90,29 @@ if (!empty($_POST)) {
 
                     $_SESSION['success_admin'] = "Release correctement éditée";
                     header('Location: admin.php?article=table');
-                                       
+                    exit;
                 } else {
                     $_SESSION['errors_admin'] = 'Extension non autorisée; ';
                     header('Location: admin.php?article=table');
+                    exit;
                 }
             } else {
                 $_SESSION['errors_admin'] = 'Fichier trop lourd';
                 header('Location: admin.php?article=table');
+                exit;
             }
-        } elseif ($_FILES['image']['error'] === 4){
+        } elseif ($_FILES['image']['error'] === 4) {
             $_SESSION['success_admin'] = "Release correctement ajoutée (pas de modification de la photo)";
             header('Location: admin.php?article=table');
+            exit;
         } else {
             $_SESSION['errors_admin'] = 'Une erreur est survenue lors du transfert de la photo';
             header('Location: admin.php?article=table');
+            exit;
         }
     } else {
         $_SESSION['success_admin'] = "Release correctement ajoutée";
         header('Location: admin.php?article=table');
+        exit;
     }
 }

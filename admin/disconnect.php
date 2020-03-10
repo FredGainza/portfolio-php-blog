@@ -1,9 +1,10 @@
 <?php
-    session_start();
+session_start();
 
-    // Détruit toutes les variables de session
-    $_SESSION = array();
+// Détruit toutes les variables de session
+$_SESSION = array();
 
-    // Finalement, on détruit la session.
-    session_destroy();
-    header('Location: ../index.php?disconnect=ok');
+// Finalement, on détruit la session.
+session_destroy();
+header('Location: ../index.php?disconnect=ok');
+exit;

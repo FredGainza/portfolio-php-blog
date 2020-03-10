@@ -1,10 +1,10 @@
-<?php 
+<?php
 session_start();
 require 'header.php';
 require 'toolbox.php';
 // dumpPre($_SESSION);exit;
 
-if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])){
+if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])) {
     require 'app/bdd.php';
     $id = !empty($_GET['id']) ? $_GET['id'] : $_SESSION['log_id'];
     $select = $dbh->prepare('SELECT * FROM users WHERE id = :id');
@@ -15,11 +15,10 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])){
 
     $created = $res_user->created_at;
     $created = date("d-m-Y", strtotime($created));
-
 } else {
-    header('Location: ' .$_SERVER['HTTP_REFERER']);
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit;
 }
-
 ?>
 
 <div class="container mt-5">
@@ -32,9 +31,9 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])){
                     <img src="<?= isset($_SESSION['lien_avatar']) && !empty($_SESSION['lien_avatar']) ? $_SESSION['lien_avatar'] : $res_user->avatar; ?>" class="w-250p">
                 </div>
                 <div class="author-card-details mt-3 pl-4">
-                    <h5 class="author-card-name color-red-cay"><b><?= $res_user->firstname.' '.$res_user->lastname; ?></b></h5><span class="author-card-position">Membre depuis le <?= $created; ?></span>
+                    <h5 class="author-card-name color-red-cay"><b><?= $res_user->firstname . ' ' . $res_user->lastname; ?></b></h5><span class="author-card-position">Membre depuis le <?= $created; ?></span>
                 </div>
-                
+
                 <form action="app/refresh_avatar.php" method="GET" class="pt-3">
                     <input type="hidden" name="id_user" value="<?= $_GET['id']; ?>">
                     <select name="type_avatar" id="type_avatar" class="ml-5">
@@ -71,7 +70,7 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])){
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-email">E-mail</label>
-                        <input class="form-control" type="email" id="account-email" name="email" value="<?= $res_user->email; ?>" disabled>
+                        <input class="form-control" type="email" id="account-email" name="email2" value="<?= $res_user->email; ?>">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -100,7 +99,7 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])){
                             <label class="custom-control-label" for="subscribe_me">Souscrire à la newsletter</label>
                         </div>
                         <input type="hidden" name="id_user" value="<?= $res_user->id; ?>">
-                        <input type="hidden" name="id_user" value="<?= isset($_SESSION['lien_avatar']) && !empty($_SESSION['lien_avatar']) ? $_SESSION['lien_avatar'] : $res_user->avatar; ?>">
+                        <input type="hidden" name="post_avatar" value="<?= isset($_SESSION['lien_avatar']) && !empty($_SESSION['lien_avatar']) ? $_SESSION['lien_avatar'] : $res_user->avatar; ?>">
                         <button class="btn btn-style-1 btn-dark" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button>
                     </div>
                 </div>
@@ -108,6 +107,5 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])){
         </div>
     </div>
 </div>
-
 
 <?php require 'footer.php'; ?>
