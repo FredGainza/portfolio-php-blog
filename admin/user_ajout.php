@@ -1,6 +1,6 @@
 <div class="col-12 pt-3">
   <span class="h3 font-weight-bold ml-3">Formulaire d'ajout d'utilisateurs</span>
-  <form action="traitement_ajout_user.php" method="POST" class="py-3 pl-5">
+  <form action="traitement_ajout_user.php" method="POST" class="py-3 pl-2">
     <div class="form-row mr-3">
       <div class="form-group col-lg-6">
         <label for="firstname">Prénom</label>

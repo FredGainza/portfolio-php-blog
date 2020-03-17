@@ -28,7 +28,8 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])) {
             <div class="author-card pb-3">
                 <div class="author-card-cover" style="background-image: url(https://demo.createx.studio/createx-html/img/widgets/author/cover.jpg);"></div>
                 <div class="author-card-profile">
-                    <img src="<?= isset($_SESSION['lien_avatar']) && !empty($_SESSION['lien_avatar']) ? $_SESSION['lien_avatar'] : $res_user->avatar; ?>" class="w-250p">
+                    <img src="<?= isset($_SESSION['lien_avatar']) && !empty($_SESSION['lien_avatar']) ? $_SESSION['lien_avatar'] : $res_user->avatar; ?>" class="<?= isset($_GET['id']) ? 'w-200p' : 'w-250p'; ?>">
+                    
                 </div>
                 <div class="author-card-details mt-3 pl-4">
                     <h5 class="author-card-name color-red-cay"><b><?= $res_user->firstname . ' ' . $res_user->lastname; ?></b></h5><span class="author-card-position">Membre depuis le <?= $created; ?></span>
@@ -36,7 +37,7 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])) {
 
                 <form action="app/refresh_avatar.php" method="GET" class="pt-3">
                     <input type="hidden" name="id_user" value="<?= $_GET['id']; ?>">
-                    <select name="type_avatar" id="type_avatar" class="ml-5">
+                    <select name="type_avatar" id="type_avatar" class="ml-5<?= isset($_GET['id']) ? ' d-none' : ''; ?>">
                         <option value="avataaars">Avataaars</option>
                         <option value="bottts">Bottts</option>
                         <option value="gridy">Gridy</option>
@@ -47,7 +48,7 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])) {
                         <option value="jdenticon">Jdenticon</option>
                     </select>
 
-                    <button class="btn btn-dark" id="bouton" name="random">Random</button>
+                    <button class="btn btn-dark<?= isset($_GET['id']) ? ' d-none' : ''; ?>" id="bouton" name="random">Random</button>
                     <input type="hidden" name="id_user" value="<?= $_GET['id']; ?>">
                 </form>
             </div>
@@ -70,7 +71,7 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])) {
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-email">E-mail</label>
-                        <input class="form-control" type="email" id="account-email" name="email2" value="<?= $res_user->email; ?>">
+                        <input class="form-control" type="email" id="account-email" name="email2" value="<?= $res_user->email; ?>" <?= isset($_GET['id']) ? 'disabled' : ''; ?>>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -82,13 +83,13 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])) {
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-pass">Nouveau password</label>
-                        <input class="form-control" type="password" name="password" id="account-pass">
+                        <input class="form-control" type="password" name="password" id="account-pass" <?= isset($_GET['id']) ? 'disabled' : ''; ?>>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-confirm-pass">confirmez le password</label>
-                        <input class="form-control" type="password" name="password2" id="account-confirm-pass">
+                        <input class="form-control" type="password" name="password2" id="account-confirm-pass" <?= isset($_GET['id']) ? 'disabled' : ''; ?>>
                     </div>
                 </div>
                 <div class="col-12">
@@ -96,11 +97,12 @@ if (isset($_SESSION['user_access']) || isset($_SESSION['admin_access'])) {
                     <div class="d-flex flex-wrap justify-content-between align-items-center">
                         <div class="custom-control custom-checkbox d-block">
                             <input class="custom-control-input" type="checkbox" id="subscribe_me" checked="">
-                            <label class="custom-control-label" for="subscribe_me">Souscrire à la newsletter</label>
+                            <label class="custom-control-label<?= isset($_GET['id']) ? ' d-none' : ''; ?>" for="subscribe_me">Souscrire à la newsletter</label>
                         </div>
                         <input type="hidden" name="id_user" value="<?= $res_user->id; ?>">
                         <input type="hidden" name="post_avatar" value="<?= isset($_SESSION['lien_avatar']) && !empty($_SESSION['lien_avatar']) ? $_SESSION['lien_avatar'] : $res_user->avatar; ?>">
-                        <button class="btn btn-style-1 btn-dark" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button>
+                        <?php $_SESSION['lien_avatar'] = ''; ?>
+                        <button class="btn btn-style-1 btn-dark<?= isset($_GET['id']) ? ' d-none' : ''; ?>" type="submit" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Your profile updated successfuly.">Update Profile</button>
                     </div>
                 </div>
             </form>

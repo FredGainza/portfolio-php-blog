@@ -169,7 +169,7 @@ if (isset($_GET) && !empty($_GET)) {
         <h5 class="card-header">Lecteur spotify</h5>
         <div class="card-body">
           <?php if (isset($resultat->spotify_URI) && !empty($resultat->spotify_URI)) : ?>
-            <iframe src="https://open.spotify.com/embed/album/<?= $resultat->spotify_URI; ?>" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            <iframe src="https://open.spotify.com/embed/album/<?= $resultat->spotify_URI; ?>" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
           <?php else : ?>
             <h6 class="color-red-cay">Pas d'audio dispo sur Spotify</h6>
           <?php endif; ?>

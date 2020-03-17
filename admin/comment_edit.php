@@ -14,7 +14,7 @@ $created = date("d-m-Y à H:i:s", strtotime($created));
 
 <div class="col-lg-12 pt-3">
   <span class="h3 font-weight-bold ml-3">Edition de commentaire</span>
-  <form action="traitement_edit_comment.php" method="POST" class="py-3 px-5">
+  <form action="traitement_edit_comment.php" method="POST" class="py-3 px-2">
     <h5>Commentaire envoyé par : <?= $res->firstname; ?> <?= $res->lastname; ?>, le <?= $created; ?></h5>
     <div class="form-row py-3">
       <textarea name="com" id="com" class="px-1 w-50" width="70%" rows="10"><?= $res->commentaire . '<br>----------<br><span class="text-danger">Raison de la modération: </span>'; ?></textarea>

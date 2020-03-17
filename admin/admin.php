@@ -172,8 +172,9 @@ if (isset($_GET['user']) && $_GET['user'] == "delete" && isset($_GET['id']) && !
       ?>
 
         <?php if (isset($res_aut) || isset($_GET['affiche']) && $_GET['affiche'] == 'ok') : ?>
-          <div class="col-12 pt-3 fz-80">
+          <div class="col-12 pt-3 fz-80 d-resp-admin-max">
             <h5>Derniers enregistrements de posts</h5>
+            <div class="table-responsive">
             <table class="my-3 w-100 table-striped">
               <thead>
                 <tr>
@@ -184,8 +185,8 @@ if (isset($_GET['user']) && $_GET['user'] == "delete" && isset($_GET['id']) && !
                   <th>Titre</th>
                   <th>Date de sortie</th>
                   <th>Label</th>
-                  <th>Description</th>
-                  <th class="w-400p">Contenu</th>
+                  <th class="w15pct">Description</th>
+                  <th class="w30pct">Contenu</th>
                   <th>Date création</th>
                 </tr>
               </thead>
@@ -214,14 +215,14 @@ if (isset($_GET['user']) && $_GET['user'] == "delete" && isset($_GET['id']) && !
                 <?php endforeach ?>
               </tbody>
             </table>
-
+          </div>      
           <?php endif; ?>
           <p class="text-right"><a href="?article=table" class="black">Voir plus</a></p>
 
           <hr>
           <hr>
           <h5 class="pt-3">Derniers enregistrements de commentaires</h5>
-          </div>
+          
           <?php
           $select_comment = $dbh->prepare('SELECT * FROM blog_comments ORDER BY id DESC LIMIT 3');
           $select_comment->execute();
@@ -230,7 +231,7 @@ if (isset($_GET['user']) && $_GET['user'] == "delete" && isset($_GET['id']) && !
           // exit;
           ?>
           <?php if (isset($res_comment) || isset($_GET['comment']) && $_GET['comment'] == "table") : ?>
-            <div class="col-12 fz-80">
+            <div class="table-responsive">
               <table class="my-3 w-100 table-striped">
                 <thead>
                   <tr>
@@ -256,14 +257,14 @@ if (isset($_GET['user']) && $_GET['user'] == "delete" && isset($_GET['id']) && !
                     </tr>
                   <?php endforeach ?>
                 </tbody>
-
+              </div>
               </table>
             <?php endif; ?>
             <p class="text-right"><a href="?comment=table" class="black">Voir plus</a></p>
             <hr>
             <hr>
             <h5 class="pt-3">Derniers enregistrements d'utilisateurs</h5>
-            </div>
+            
 
             <?php
             $select_post = $dbh->prepare('SELECT user_id, COUNT(user_id) as nb_posts FROM blog_posts LEFT JOIN users ON users.id = blog_posts.user_id GROUP BY user_id');
@@ -280,7 +281,7 @@ if (isset($_GET['user']) && $_GET['user'] == "delete" && isset($_GET['id']) && !
 
             ?>
             <?php if (isset($res) || isset($_GET['users']) && $_GET['users'] == "table") : ?>
-              <div class="col-12 fz-80">
+              <div class="table-responsive">
                 <table class="my-3 w-100 table-striped">
                   <thead>
                     <tr>
@@ -334,12 +335,13 @@ if (isset($_GET['user']) && $_GET['user'] == "delete" && isset($_GET['id']) && !
                     <?php endforeach ?>
                   </tbody>
                 </table>
+              </div>
               <?php endif; ?>
               <p class="text-right"><a href="?user=table" class="black">Voir plus</a></p>
             <?php
           }
             ?>
-              </div>
+        </div>
 
               <!-- /#page-content-wrapper -->
 

@@ -1,6 +1,8 @@
 <?php
 require '../app/bdd.php';
-
+// dumpPre($_SESSION);
+// dumpPre($_GET);
+// exit;
 $select = $dbh->prepare('SELECT * FROM users WHERE id = :id');
 $select->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
 $select->execute();
@@ -35,7 +37,7 @@ $_SESSION['email'] = $res->email;
 
 <div class="col-12 pt-3">
 
-  <form action="traitement_ajout_user.php" method="POST" class="py-3 pad-bloc">
+  <form action="traitement_edit_user.php" method="POST" class="py-3 pad-bloc">
     <div class="form-row mr-3">
       <div class="form-group col-lg-6">
         <label for="firstname">Prénom</label>
@@ -73,9 +75,6 @@ $_SESSION['email'] = $res->email;
     </div>
 
 
-
-
-
     <div class="form-row mr-3">
       <div class="form-group col-lg-12 form-check">
         <label class="form-check-label" for="reset_pwd">
@@ -84,6 +83,14 @@ $_SESSION['email'] = $res->email;
         <input class="form-check-input-pwd" type="checkbox" name="reset_pwd" id="reset_pwd" value="valid">
       </div>
       <div class="form-group col-lg-12">
+
+        <?php if(isset($_SESSION['lien_avatar']) && $_SESSION['lien_avatar'] != $res->avatar) : ?>
+          <input type="hidden" name="avatar" value="<?= $_SESSION['lien_avatar']; ?>">
+        <?php endif; ?>
+        <?php if(!isset($_SESSION['lien_avatar']) || $_SESSION['lien_avatar'] == $res->avatar) : ?>
+          <input type="hidden" name="avatar" value="<?= $res->avatar; ?>">
+        <?php endif; ?>
+
         <input type="hidden" name="id_user" value="<?= $_GET['id']; ?>">
         <button type="submit" class="btn btn-dark my-3 with-resp" name="valider">Mettre à jour</button>
       </div>

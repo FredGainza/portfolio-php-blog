@@ -10,7 +10,7 @@ $res = $select->fetch(PDO::FETCH_OBJ);
 
 <div class="col-12 pt-3">
     <span class="h3 font-weight-bold ml-3">Formulaire d'édition des sorties</span>
-    <form action="traitement_edit.php" method="POST" class="py-3 pl-5" enctype="multipart/form-data">
+    <form action="traitement_edit.php" method="POST" class="py-3 pl-2" enctype="multipart/form-data">
     <div class="form-row mr-3">
             <div class="form-group col-lg-6">
                 <label for="title">Titre de la release</label>

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../toolbox.php';
+
 if (isset($_POST['email']) && !empty($_POST['email'])) {
 
     $email = valid_donnees($_POST['email']);

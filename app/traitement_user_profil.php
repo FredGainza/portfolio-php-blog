@@ -12,6 +12,7 @@ if (isset($_POST) && !empty($_POST) && isset($_SESSION) && !empty($_SESSION)) {
     $emailChange = false;
     $avatarChange = false;
 
+    $_SESSION['lien_avatar'] = '';
     // On vérifie si l'avatar a été modifié
     if ($_POST['post_avatar'] != $_SESSION['log_avatar']){
         $avatarChange = true;
