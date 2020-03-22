@@ -79,7 +79,7 @@ if (!empty($_POST)) {
             $mail->Host       = 'mail.fgainza.fr';                    // Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
             $mail->Username = 'contact@fgainza.fr';
-            $mail->Password = 'xxxxxxxxxx';                           // SMTP password
+            $mail->Password = 'wJ!ty051';                           // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
             $mail->SMTPOptions = array(
                 'ssl' => array(
@@ -91,7 +91,7 @@ if (!empty($_POST)) {
             $mail->Port       = 587;                                    // TCP port to connect to
 
             //Recipients
-            $mail->setFrom('techno-blog@fgainza.fr', 'Administrateur de Techno-Blog');
+            $mail->setFrom('techno-blog@fgainza.fr', 'Techno-Blog');
             $mail->addAddress($email, $firstname . ' ' . $lastname);
             $mail->addBCC('techno-blog@fgainza.fr');
 
@@ -112,13 +112,16 @@ if (!empty($_POST)) {
             echo 'Message has been sent';
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&user=table');
         }
     } else {
         $_SESSION['success_admin'] = 'Mise à jour correctement réalisée des infos de l\'utilisateur';
+        header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&user=table');
     }
 } else {
     $_SESSION['errors_admin'] = 'Un problème est survenu';
+    header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&user=table');
 }
 $_SESSION['success_admin'] = 'Mise à jour correctement réalisée des infos de l\'utilisateur';
-header('Location: admin.php?user=table');
+header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&user=table');
 exit;

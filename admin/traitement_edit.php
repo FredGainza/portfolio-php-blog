@@ -2,9 +2,13 @@
 require '../toolbox.php';
 require '../app/bdd.php';
 
-if (!empty($_POST)) {
+$lim=0;
+isset($_SESSION['limit-art']) ? $lim = $_SESSION['limit-art'] : $lim = 5;
+$page=0;
+isset($_SESSION['page-art']) ? $page = $_SESSION['page-art'] : $page = 0;
 
-    $id = $_POST['post_id'];
+if (!empty($_POST)) {
+    $id = $_POST['id'];
     $title = $_POST['title'];
     $date = $_POST['date'];
     $label = $_POST['label'];
@@ -13,7 +17,7 @@ if (!empty($_POST)) {
     $content = $_POST['content'];
     $spotify = $_POST['spotify_URI'];
     $slug = slugify($title);
-
+    
     $edit = $dbh->prepare('UPDATE blog_posts SET category = :category, title = :title, date = :date, label = :label, description = :description, content = :content, spotify_URI = :spotify_URI, slug = :slug WHERE id = :id');
     $edit->bindValue(':id', $id, PDO::PARAM_INT);
     $edit->bindValue(':category', $category, PDO::PARAM_STR);
@@ -29,7 +33,7 @@ if (!empty($_POST)) {
 
     if (empty($_FILES)) {
         $_SESSION['success_admin'] = "Release correctement éditée";
-        header('Location: admin.php?article=table');
+        header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');;
         exit;
     }
 
@@ -89,30 +93,30 @@ if (!empty($_POST)) {
                     $edition_img->execute();
 
                     $_SESSION['success_admin'] = "Release correctement éditée";
-                    header('Location: admin.php?article=table');
+                    header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
                     exit;
                 } else {
                     $_SESSION['errors_admin'] = 'Extension non autorisée; ';
-                    header('Location: admin.php?article=table');
+                    header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
                     exit;
                 }
             } else {
                 $_SESSION['errors_admin'] = 'Fichier trop lourd';
-                header('Location: admin.php?article=table');
+                header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
                 exit;
             }
         } elseif ($_FILES['image']['error'] === 4) {
-            $_SESSION['success_admin'] = "Release correctement ajoutée (pas de modification de la photo)";
-            header('Location: admin.php?article=table');
+            $_SESSION['success_admin'] = "Release correctement éditée";
+            header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
             exit;
         } else {
             $_SESSION['errors_admin'] = 'Une erreur est survenue lors du transfert de la photo';
-            header('Location: admin.php?article=table');
+            header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
             exit;
         }
     } else {
-        $_SESSION['success_admin'] = "Release correctement ajoutée";
-        header('Location: admin.php?article=table');
+        $_SESSION['success_admin'] = "Release correctement éditée";
+        header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
         exit;
     }
 }

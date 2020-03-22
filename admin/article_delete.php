@@ -7,4 +7,5 @@ require '../app/bdd.php';
     $delete->execute();
 
     $_SESSION['success_admin'] = 'L\'article a bien été supprimé';
-    header('Location: admin.php?article=table');exit;
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit;

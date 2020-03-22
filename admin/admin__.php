@@ -22,7 +22,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet " href="../css/album.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/style.min.css">
   <link rel="stylesheet" href="../css/slide.css">
   <link rel="stylesheet" href="../css/slidebar.css">
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>

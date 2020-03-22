@@ -28,7 +28,7 @@
   <link type="image/png" rel="icon" href="images/favicon.png" />
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet " href="css/album.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.min.css">
 
 
   <!-- Custom styles for this template -->
@@ -41,7 +41,7 @@
       <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand mr-2" href="https://techno-blog.fgainza.fr/">Actus Techno EP</a>
+      <a class="navbar-brand mr-2" href="https://techno-blog.fgainza.fr/blog_index.php">Actus Techno EP</a>
 
 
       <div class="displayRR">

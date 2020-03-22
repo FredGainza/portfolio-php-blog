@@ -73,7 +73,7 @@ $res = $select->fetch(PDO::FETCH_OBJ);
                 <label class="custom-file-label" for="customFile">Importer une image</label>
             </div>
         </div>
-
+        <input type="hidden" name="id" value="<?= $_GET['id']; ?>">
         <button type="submit" class="btn btn-dark my-3 with-resp">Mise à jour de l'article</button>
 
     </form>

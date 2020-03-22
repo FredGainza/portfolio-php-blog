@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet"> 
     
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.min.css">
     <link rel="stylesheet" href="../css/navbar.css">
     
 

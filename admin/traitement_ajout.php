@@ -3,6 +3,11 @@ session_start();
 require '../app/can_connect_admin.php';
 require '../toolbox.php';
 
+$lim=0;
+isset($_SESSION['limit-art']) ? $lim = $_SESSION['limit-art'] : $lim = 5;
+$page=0;
+isset($_SESSION['page-art']) ? $page = $_SESSION['page-art'] : $page = 0;
+
 $success = false;
 
 $_SESSION['success_admin'] = "";
@@ -10,7 +15,7 @@ $_SESSION['errors_admin'] = "";
 
 if (isset($_POST) && !empty($_POST)) {
     foreach ($_POST as $k => $v) {
-        if (!empty($v)) {
+        if (!empty($v) || $k == 'spotify_URI') {
             $succes;
         } else {
             $_SESSION['errors_admin'] .= $k . ' /' . ' ';
@@ -115,26 +120,26 @@ if ($_SESSION['errors_admin'] === "" || $_SESSION['errors_admin'] === "spotify_U
                     $insert->execute();
 
                     $_SESSION['success_admin'] = "Release correctement ajoutée";
-                    header('Location: admin.php?article=table');
+                    header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
                     exit;
                 } else {
                     $_SESSION['errors_admin'] = 'Extension non autorisée';
-                    header('Location: admin.php?article=affichage');
+                    header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
                     exit;
                 }
             } else {
                 $_SESSION['errors_admin'] = 'Fichier trop lourd';
-                header('Location: admin.php?article=table');
+                header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
                 exit;
             }
         } else {
             $_SESSION['errors_admin'] = 'Erreur lors du transfert de fichier';
-            header('Location: admin.php?article=table');
+            header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
             exit;
         }
     } else {
         $_SESSION['errors_admin'] = 'Un problème est survenu';
-        header('Location: admin.php?article=table');
+        header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&article=table');
         exit;
     }
 }

@@ -2,7 +2,9 @@
 session_start();
 require '../app/can_connect_admin.php';
 require '../toolbox.php';
-
+if (isset($limit)){
+  $_SESSION['limit'] = $limit;
+}
 if (isset($_GET['article']) && $_GET['article'] == "delete" && isset($_GET['id']) && !empty($_GET['id'])) {
   require 'article_delete.php';
 }
@@ -16,7 +18,7 @@ if (isset($_GET['user']) && $_GET['user'] == "delete" && isset($_GET['id']) && !
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="utf-8">
@@ -35,7 +37,7 @@ if (isset($_GET['user']) && $_GET['user'] == "delete" && isset($_GET['id']) && !
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet " href="../css/album.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/style.min.css">
   <link rel="stylesheet" href="../css/slidebar.css">
   <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
 
@@ -66,7 +68,7 @@ if (isset($_GET['user']) && $_GET['user'] == "delete" && isset($_GET['id']) && !
 
       <div class="resp-sidebar">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark mr-1 mt-2 mt-lg-0">
-          <a class="navbar-brand ml-auto" href="https://techno-blog.fgainza.fr/">Actus Techno EP</a>
+          <a class="navbar-brand ml-auto" href="https://techno-blog.fgainza.fr/blog_index.php">Actus Techno EP</a>
           <span class="color-grey-navbar mr-1 ml-auto">Bonjour </span><span class="navbar-text text-white">
             <a href="../user_profil.php"><?= $_SESSION['log_firstname'] . ' ' . $_SESSION['log_lastname']; ?></a>
           </span>

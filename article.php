@@ -4,7 +4,7 @@ require 'header.php';
 require 'toolbox.php';
 if (isset($_GET) && !empty($_GET)) {
   require 'app/bdd.php';
-
+  $id=$_GET['id'];
   $select_com = $dbh->prepare('SELECT commentaire, DATE_FORMAT(created_at, \'%d/%m/%Y à %Hh%imin%ss\') as dateCre  FROM blog_comments WHERE post_id = :post_id ORDER BY id DESC');
   $select_com->bindValue(':post_id', $_GET['id'], PDO::PARAM_INT);
   $select_com->execute();
@@ -29,16 +29,24 @@ if (isset($_GET) && !empty($_GET)) {
 
   $res_com_aut = $aut_comment->fetchAll(PDO::FETCH_OBJ);
 
+
   $quote = $dbh->prepare('SELECT * FROM citations');
   $quote->execute();
   $res_quote = $quote->fetchAll(PDO::FETCH_OBJ);
   // var_dump($res_quote);exit;
+
 }
 ?>
 
 
 <div class="container">
-  <button class="retour mt-1" onClick='javascript:history.back();'><i class="fa fa-angle-double-left mr-2" aria-hidden="true"></i>Précédent</button>
+
+<div class="col-xl-8 d-flex justify-content-between">
+  <button class="retour mr-auto mt-1" onClick='javascript:history.back();'><i class="fa fa-angle-double-left mr-2" aria-hidden="true"></i>Précédent</button>
+  <?php if(isset($_SESSION['admin_access'])) : ?>
+
+      <a href="admin/admin.php?article=edit&id=<?= $id; ?>" class="text-white"><button class="btn btn-info btn-sm d-inline ml-auto mt-1 mr-1"><i class="far fa-edit mr-2"></i>Editer</button></a>
+  <?php endif; ?></div>
   <div class="row">
 
     <!-- Blog Entries Column -->
@@ -50,7 +58,15 @@ if (isset($_GET) && !empty($_GET)) {
       <!-- Author -->
       <p>
         par
-        <a href="#" class="color-red-cay"><?= $res->firstname . ' ' . $res->lastname; ?></a><br>
+        <a href="#" class="color-red-cay">
+          <?php if(!$res) : ?>
+            <span class="text-danger">Utilisateur supprimé</span>
+          <?php else : ?>
+            <?= $res->firstname . ' ' . $res->lastname; ?>
+          <?php endif; ?>           
+        </a>
+        <br>
+
         Posté le <?= $dateFr; ?>
       </p>
 
@@ -97,7 +113,7 @@ if (isset($_GET) && !empty($_GET)) {
       <?php if (!empty($_SESSION['success'])) : ?>
 
         <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="<?= $_SESSION['log_avatar']; ?>" alt="Avatar">
+          <img class="d-flex mr-3 rounded-circle" src="<?= $_SESSION['log_avatar']; ?>">
           <div class="media-body">
             <h5 class="mt-0"><?= $_SESSION['log_firstname'] . ' ' . $_SESSION['log_lastname']; ?></h5>
 
@@ -112,18 +128,28 @@ if (isset($_GET) && !empty($_GET)) {
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex justify-content-between align-items-center">
                 <div class="mr-2">
-                  <img class="rounded-circle" width="45" src="<?= $v->avatar; ?>" alt="Avatar">
+                <?php if($v->firstname == '') : ?>
+                    <img class="rounded-circle" width="45" src="images/close.png">
+                  <?php else : ?>
+                    <img class="rounded-circle" width="45" src="<?= $v->avatar; ?>">
+
+                  <?php endif; ?>
+
                 </div>
                 <div class="ml-2">
                   <?php
                   $role = $v->role;
                   if ($role === "admin") {
                     $role = '<span class="text-danger h7">(admin)</span>';
-                  } else {
+                  } elseif ($role === "user") {
                     $role = '<span class="h7">(user)</span>';
-                  }
+                  }                
                   ?>
-                  <div class="h6 m-0"><?= $v->firstname . ' ' . $v->lastname . ' ' . $role; ?></div>
+                  <?php if($v->firstname == '') : ?>
+                    <span class="text-danger">Utilisateur supprimé</span>
+                  <?php else : ?>
+                    <div class="h6 m-0"><?= $v->firstname . ' ' . $v->lastname . ' ' . $role; ?></div>
+                  <?php endif; ?>
                 </div>
               </div>
               <div>

@@ -21,7 +21,7 @@ try {
     $mail->Host       = 'mail.fgainza.fr';                    // Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
     $mail->Username = 'contact@fgainza.fr';
-    $mail->Password = 'xxxxxxxxxx';                           // SMTP password
+    $mail->Password = 'wJ!ty051';                           // SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
     $mail->SMTPOptions = array(
         'ssl' => array(
@@ -33,7 +33,7 @@ try {
     $mail->Port       = 587;                                    // TCP port to connect to
 
     //Recipients
-    $mail->setFrom('techno-blog@fgainza.fr', 'Administrateur de Techno-Blog');
+    $mail->setFrom('techno-blog@fgainza.fr', 'Techno-Blog');
     $mail->addAddress($_SESSION['email_forget_pwd']);
     $mail->addBCC('techno-blog@fgainza.fr');
 

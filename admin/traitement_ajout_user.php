@@ -26,6 +26,7 @@ if (isset($_POST) && !empty($_POST)) {
             $succes;
         } else {
             $_SESSION['errors_admin'] = "Vous n'avez pas correctement rempli un ou plusieurs champs";
+            header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&user=table');
         }
     }
 }
@@ -90,7 +91,7 @@ if ($_SESSION['errors_admin'] === "") {
         $mail->Host       = 'mail.fgainza.fr';                    // Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
         $mail->Username = 'contact@fgainza.fr';
-        $mail->Password = 'xxxxxxxxxx';                           // SMTP password
+        $mail->Password = 'wJ!ty051';                           // SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
         $mail->SMTPOptions = array(
             'ssl' => array(
@@ -102,7 +103,7 @@ if ($_SESSION['errors_admin'] === "") {
         $mail->Port       = 587;                                    // TCP port to connect to
 
         //Recipients
-        $mail->setFrom('techno-blog@fgainza.fr', 'Administrateur de Techno-Blog');
+        $mail->setFrom('techno-blog@fgainza.fr', 'Techno-Blog');
         $mail->addAddress($email, $firstname . ' ' . $lastname);
         $mail->addBCC('techno-blog@fgainza.fr');
 
@@ -126,13 +127,14 @@ if ($_SESSION['errors_admin'] === "") {
 
         $mail->send();
         $_SESSION['success_admin'] = "Utilisateur ajouté";
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&user=table');
         exit;
     } catch (Exception $e) {
         $_SESSION['errors'] = "Le message n'a pas pu être envoyé. Mailer Error: {$mail->ErrorInfo}";
+        header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&user=table');
     }
 } else {
     $_SESSION['errors_admin'] = 'Un problème est survenu';
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    header('Location: admin.php?nb_items='.$lim.'&page='.$page.'&user=table');
     exit;
 }

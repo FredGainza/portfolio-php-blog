@@ -72,15 +72,16 @@ require 'toolbox.php';
         $page = 1;
         if (!empty($_GET['page'])) {
             $page = $_GET['page'];
+            $page = trim($page);
         }
         // Nombre de résultats par page
         if (isset($_COOKIE['largeur']) && $_COOKIE['largeur'] != 0) {
             $l = $_COOKIE['largeur'];
-            if ($l < 992) {
-                $items_per_page = 2;
-            } else {
+            if ($l <= 575 || $l >= 992) {
                 $items_per_page = 3;
-            }
+            } else {
+                $items_per_page = 2;
+            } 
         } else {
             $items_per_page = 3;
         }
@@ -103,6 +104,7 @@ require 'toolbox.php';
         $page = 1;
         if (!empty($_GET['page'])) {
             $page = $_GET['page'];
+            $page = trim($page);
         }
         // Nombre de résultats par page
         if (isset($_COOKIE['largeur']) && $_COOKIE['largeur'] != 0) {
@@ -110,9 +112,9 @@ require 'toolbox.php';
             if ($l > 574 && $l < 992) {
                 $items_per_page = 4;
             } else if ($l >= 992) {
-                $items_per_page = 3;
+                $items_per_page = 6;
             } else {
-                $items_per_page = 2;
+                $items_per_page = 5;
             }
         } else {
             $items_per_page = 3;
@@ -159,15 +161,15 @@ require 'toolbox.php';
     <ul class="pagination justify-content-center">
         <?php for ($i = 1; $i <= ceil($nbr_of_page[0] / $items_per_page); $i++) :; ?>
             <li class="page-item">
-                <a class="page-link text-dark" href="?page=
-                    <?php
-                    if (isset($_GET['category']) && !empty($_GET['category'])) {
-                        echo $i . '&category=' . $_GET['category'];
-                    } else {
-                        echo $i;
-                    }
-                    ?>
-                    "> <?= $i; ?> </a>
+                <a class="page-link text-dark" href="?page=<?php
+                                                                if (isset($_GET['category']) && !empty($_GET['category'])) {
+                                                                    echo $i . '&category=' . $_GET['category'];
+                                                                } else {
+                                                                    echo $i;
+                                                                }
+                                                                ?>"> 
+                                                                
+                <?= $i; ?> </a>
             </li>
         <?php endfor; ?>
     </ul>

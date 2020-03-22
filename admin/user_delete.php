@@ -5,4 +5,5 @@ require '../app/bdd.php';
     $delete->execute();
 
 $_SESSION['success_admin'] = 'L\'utilisateur a bien été supprimé';
-header('Location: admin.php?user=table');exit;
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+exit;
