@@ -79,7 +79,7 @@ if (!empty($_POST)) {
             $mail->Host       = 'mail.fgainza.fr';                    // Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
             $mail->Username = 'contact@fgainza.fr';
-            $mail->Password = 'wJ!ty051';                           // SMTP password
+            $mail->Password = 'xxxxxxxxxx';                           // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
             $mail->SMTPOptions = array(
                 'ssl' => array(
