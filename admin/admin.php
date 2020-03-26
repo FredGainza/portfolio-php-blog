@@ -2,9 +2,7 @@
 session_start();
 require '../app/can_connect_admin.php';
 require '../toolbox.php';
-if (isset($limit)){
-  $_SESSION['limit'] = $limit;
-}
+
 if (isset($_GET['article']) && $_GET['article'] == "delete" && isset($_GET['id']) && !empty($_GET['id'])) {
   require 'article_delete.php';
 }

@@ -1,19 +1,41 @@
 <?php
 require '../app/bdd.php';
 
+$columns = array('id', 'title', 'label', 'date');
+$sort_order = isset($_GET['order']) && strtolower($_GET['order']) == 'desc' ? 'DESC' : 'ASC';
+
+if (isset($_GET['column']) && in_array($_GET['column'], $columns)) {
+  $column = $_GET['column'];
+} else {
+  if (isset($_SESSION['column-art'])) {
+      $column = $_SESSION['column-art'];
+  } else {
+      $column = $columns[0];
+  }
+}
+$_SESSION['column-art'] = $column;
+
+if (isset($_GET['order'])) {
+ if (strtolower($_GET['order']) == "desc"){
+     $sort_order = "DESC";
+ }else{
+     $sort_order = "ASC";
+ }
+} else {
+  $sort_order = "ASC";
+}
+$_SESSION['order-art'] = strtolower($sort_order);
+/********************************************************************************************************************************************/
+
 $select_aut_post = $dbh->prepare('SELECT * FROM users LEFT JOIN blog_posts ON blog_posts.user_id = users.id WHERE user_id IS NOT NULL');
 
 $select_aut_post->execute();
 $res_aut = $select_aut_post->fetchAll(PDO::FETCH_OBJ);
-
-$page = isset($_GET['page']) ? $_GET['page'] : 0;
+// dumpPre($res_aut);exit;
+$page = isset($_GET['page']) ? intval($_GET['page']) : 0;
 $_SESSION['page-art']= $page;
 $debut = 0;
 
-// if (!isset($limit)){
-//   $limit=5;
-//   $_SESSION['limit-art']= $limit;
-// }
 if (isset($_GET['nb_items']) && $_GET['nb_items']>0){
   $limit=intval($_GET['nb_items']);  
 } else {
@@ -30,14 +52,18 @@ if ($debut == 0) {
 } else {
   $debut = $page * $limit;
 }
+
 $nb_total = $select_aut_post->rowCount();
 $limite = $dbh->prepare("SELECT * FROM blog_posts LEFT JOIN users ON blog_posts.user_id = users.id WHERE user_id limit $debut,$limit");
 $limit_str = "LIMIT " . $page * $limit . ",$limit";
-
-$result = $dbh->prepare("SELECT * FROM blog_posts LEFT JOIN users ON blog_posts.user_id = users.id WHERE user_id ORDER BY user_id ASC $limit_str");
-$result->execute();
-$res = $result->fetchAll(PDO::FETCH_OBJ);
-
+ 
+if($result = $dbh->prepare('SELECT * FROM blog_posts ORDER BY ' .  $column . ' ' . $sort_order . ' ' .$limit_str)){
+  $up_or_down = str_replace(array('ASC','DESC'), array('up','down'), $sort_order); 
+  $asc_or_desc = $sort_order == 'ASC' ? 'desc' : 'asc';
+  $add_class = ' class="highlight"';
+  $result->execute();
+  $res = $result->fetchAll(PDO::FETCH_OBJ);
+}
 
 $pagin = [];
 for ($i = 1; $i <= floor($nb_total / $limit); $i++) {
@@ -87,13 +113,16 @@ if ($nb_total % $limit != 0) {
     <table class="my-3 w-100 table-striped">
       <thead>
         <tr>
-          <th style="width: 5%;" class="pl-2">Id</th>
+          <th style="width: 5%;"<?= $column == 'id' ? ' '.$add_class : ''; ?>><a href="admin.php?nb_items=<?= $limit; ?>&article=table&page=<?= $page; ?>&column=id&order=<?= $asc_or_desc; ?>">Id<i class="fas fa-sort<?= $column == 'id' ? '-' . $up_or_down . ' color-darky ml-2' : ' text-warning ml-2'; ?>"></i></a></th>
           <th style="width: 5%;">Image</th>
           <th style="width: 5%;">Catégorie</th>
-          <th style="width: 5%;">Auteur</th>
-          <th style="width: 5%;">Titre</th>
-          <th style="width: 5%;">Date de sortie</th>
-          <th style="width: 5%;">Label</th>
+          <th style="width: 5%;">Auteur</th>  
+          <!-- <th style="width: 5%;">Titre</th> -->
+          <th style="width: 5%;"<?= $column == 'title' ? ' '.$add_class : ''; ?>><a href="admin.php?nb_items=<?= $limit; ?>&article=table&page=<?= $page; ?>&column=title&order=<?= $asc_or_desc; ?>">Titre<i class="fas fa-sort<?= $column == 'title' ? '-' . $up_or_down . ' color-darky ml-2' : ' text-warning ml-2'; ?>"></i></a></th>
+          <!-- <th style="width: 5%;">Date de sortie</th> -->
+          <th style="width: 5%;"<?= $column == 'date' ? ' '.$add_class : ''; ?>><a href="admin.php?nb_items=<?= $limit; ?>&article=table&page=<?= $page; ?>&column=date&order=<?= $asc_or_desc; ?>">Date de sortie<i class="fas fa-sort<?= $column == 'date' ? '-' . $up_or_down . ' color-darky ml-2' : ' text-warning ml-2'; ?>"></i></a></th>
+          <!-- <th style="width: 5%;">Label</th> -->
+          <th style="width: 5%;"<?= $column == 'label' ? ' '.$add_class : ''; ?>><a href="admin.php?nb_items=<?= $limit; ?>&article=table&page=<?= $page; ?>&column=label&order=<?= $asc_or_desc; ?>">Label<i class="fas fa-sort<?= $column == 'label' ? '-' . $up_or_down . ' color-darky ml-2' : ' text-warning ml-2'; ?>"></i></a></th>
           <th style="width: 10%;">Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
           <th style="width: 20%;">Contenu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
           <th style="width: 5%;">Date création</th>
@@ -124,10 +153,17 @@ if ($nb_total % $limit != 0) {
             <td><?= ucfirst($value->category); ?></td>
             <td>
               <?php if($value->id != '') : ?>
-                <a href="/user_profil.php?&id=<?= $value->id; ?>" class="link-list">
-                  <?= $value->firstname . ' ' . $value->lastname; ?>
-                </a>
-              <?php else : ?>
+                <?php $aut_actif = false; ?>
+                <?php foreach ($res_aut as $aut) : ?>
+                  <?php if($aut->id == $post_id->id) : ?>
+                    <?php $aut_actif = true; ?>
+                    <a href="/user_profil.php?&id=<?= $aut->user_id; ?>" class="link-list">
+                      <?= $aut->firstname . ' ' . $aut->lastname; ?>
+                    </a>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              <?php endif; ?> 
+              <?php if (!$aut_actif) : ?>
                 <span class="text-danger">Utilisateur supprimé</span>
               <?php endif; ?> 
             </td>
@@ -259,34 +295,34 @@ if ($nb_total % $limit != 0) {
   </div>
 
 
-  <nav aria-label="Partie Pagination">
+  <nav aria-label="Partie Pagination" class="mb-4">
     <ul class="pagination align-resp">
-      <?php
-      if ($page > 0) {
-        $precedent = $page - 1;
-        echo "<li class=\"page-item\"><a class=\"page-link\" href=\"?nb_items=$limit&article=table&page=$precedent\" aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span><span class=\"sr-only\">Previous</span></a></li>";
-      } else {
-        $page = 0;
-      }
-      $i = 0;
-      $j = 1;
-      if ($nb_total > $limit) {
-        while ($i < ($nb_total / $limit)) {
-          if ($i != $page) {
-            echo "<li class=\"page-item\"><a class=\"page-link\" href=\"?nb_items=$limit&article=table&page=$i\">$j</a></li>";
-          } else {
-            echo "<li class=\"page-item active\"><a class=\"page-link\" href=\"#\">$j<span class=\"sr-only\">(current)</span></a></li>";
-          }
-          $i++;
-          $j++;
+        <?php
+        if ($page > 0) {
+            $precedent = $page - 1;
+            echo "<li class=\"page-item\"><a class=\"page-link\" href=\"?nb_items=".$limit."&article=table&page=".$precedent."&column=".$column."&order=".strtolower($sort_order)."\"\ aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span><span class=\"sr-only\">Previous</span></a></li>";
+        } else {
+            $page = 0;
         }
-      }
-      if ($debut + $limit < $nb_total) {
-        $suivant = $page + 1;
-        echo "<li class=\"page-item\"><a class=\"page-link\" href=\"?nb_items=$limit&article=table&page=$suivant\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span><span class=\"sr-only\">Next</span></a></li>";
-      }
-      echo "</ul></nav>";
-      ?>
+        $i = 0;
+        $j = 1;
+        if ($nb_total > $limit) {
+            while ($i < ($nb_total / $limit)) {
+                if ($i != $page) {
+                    echo "<li class=\"page-item\"><a class=\"page-link\" href=\"?nb_items=".$limit."&article=table&page=".$i."&column=".$column."&order=".strtolower($sort_order)."\">".$j."</a></li>";
+                } else {
+                    echo "<li class=\"page-item active\"><a class=\"page-link\" href=\"#\">".$j."<span class=\"sr-only\">(current)</span></a></li>";
+                }
+                $i++;
+                $j++;
+            }
+        }
+        if ($debut + $limit < $nb_total) {
+            $suivant = $page + 1;
+            echo "<li class=\"page-item\"><a class=\"page-link\" href=\"?nb_items=".$limit."&article=table&page=".$suivant."&column=".$column."&order=".strtolower($sort_order)."\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span><span class=\"sr-only\">Next</span></a></li>";
+        }
+        echo "</ul></nav>";
+        ?>
     <?php endif; ?>
 
     <?php 'require footer_admin.php'; ?>

@@ -6,7 +6,11 @@ V1 Officielle - 17.03.2020
 Version actuelle (22.03.2020) : v1-0-1
 ------------------
 
-* 22.03.2020 : V1-0-1 Améliorations diverses:
+* 26.03.2020 : v1-0.2 Ajout de fonctionnalités
+    - Ajout de possibilité de tri des tables users et posts
+
+
+* 22.03.2020 : v1-0-1 Améliorations diverses:
     - fixed édition des articles
     - ajout de pagination
     - modification du responsive de la partie admin

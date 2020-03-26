@@ -375,8 +375,9 @@ td {
 
 td p {margin-bottom: 0 !important;}
 
-
-
+tr .highlight {
+    background-color: #4f6278ed !important;
+}
 th {
     background-color: #242424ed;
     color: white;
@@ -462,7 +463,7 @@ img {
 .color-green-item{color: #055705;}
 .color-blue-item{color: #0562b3;}
 .color-red-item{color:#ba0303;}
-
+.color-darky{color: #292b2c}
 #sidebar-wrapper .sidebar-heading {
     padding-top: .5rem !important;
     font-size: 1.5rem !important;
